@@ -11,10 +11,10 @@ import '@/styles/common.scss'
 
 const app = createApp(App)
 // 导入测试接口
-import { getCategory } from '@/apis/testApi.js'
-getCategory().then(res => {
-  console.log(res)
-})
+// import { getCategory } from '@/apis/testApi.js'
+// getCategory().then(res => {
+//   console.log(res)
+// })
 // 导入pinia
 app.use(createPinia())
 // 导入路由
