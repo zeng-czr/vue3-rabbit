@@ -1,8 +1,13 @@
 import instance from "@/utils/http"
 //获取banner轮播图数据
-export function getBannerApi () {
+export function getBannerApi (params = {}) {
+  // 默认为1，商品为2
+  const { distributionSite = '1' } = params
   return instance({
-    url: 'home/banner'
+    url: 'home/banner',
+    params: {
+      distributionSite
+    }
   })
 }
 //获取新鲜好物数据

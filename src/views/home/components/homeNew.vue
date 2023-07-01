@@ -14,18 +14,18 @@ onMounted(()=>{
 </script>
 
 <template>
-  <HomePanal title="新鲜好物" sub-title="新鲜出炉 品质保障"></HomePanal>
+  <HomePanal title="新鲜好物" sub-title="新鲜出炉 品质保障">
   <!-- 下面是插槽主体内容模版 -->
-  <ul class="goods-list">
-    <li v-for="item in newList" :key="item.id">
-      <RouterLink to="/">
-        <img :src="item.picture" alt="" />
-        <p class="name">{{ item.name }}</p>
-        <p class="price">&yen;{{ item.price }}</p>
-      </RouterLink>
-    </li>
-  </ul>
- 
+    <ul class="goods-list">
+      <li v-for="item in newList" :key="item.id">
+        <RouterLink to="/">
+          <img :src="item.picture" alt="" />
+          <p class="name">{{ item.name }}</p>
+          <p class="price">&yen;{{ item.price }}</p>
+        </RouterLink>
+      </li>
+    </ul>
+  </HomePanal>
 </template>
 
 

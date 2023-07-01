@@ -15,7 +15,7 @@ onMounted(()=>{
 </script>
 
 <template>
-  <HomePanal title="人气推荐" sub-title="人气爆款 不容错过"></HomePanal>
+  <HomePanal title="人气推荐" sub-title="人气爆款 不容错过">
       <ul class="goods-list">
         <li v-for="item in hotList" :key="item.id">
           <RouterLink to="/">
@@ -25,7 +25,7 @@ onMounted(()=>{
           </RouterLink>
         </li>
       </ul>
-
+  </HomePanal>
 </template>
 
 <style scoped lang='scss'>
