@@ -2,15 +2,15 @@
 import {onMounted, ref} from'vue'
 import {getCategoryApi} from '@/apis/category'
 import {getBannerApi} from '@/apis/home.js'
-import { useRoute } from 'vue-router';
+import { useRoute ,onBeforeRouteUpdate } from 'vue-router';
 import GoodsItem from '@/views/home/components/goodsItem.vue'
 
 const categoryData = ref({})
 const bannerList = ref([])
 const route = useRoute()
 // category数据
-const getCategory = async ()=>{
-  const res = await getCategoryApi(route.params.id)
+const getCategory = async (id=route.params.id)=>{
+  const res = await getCategoryApi(id)
   categoryData.value = res.data.result
 }
 const getBanner = async ()=>{
@@ -21,6 +21,7 @@ const getBanner = async ()=>{
   // console.log(bannerList)
 }
 onMounted(()=>getCategory())
+onBeforeRouteUpdate ((to)=>getCategory(to.params.id)) //路有变化执行
 onMounted(()=>{
   getBanner()
 })
