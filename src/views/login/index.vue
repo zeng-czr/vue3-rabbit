@@ -1,11 +1,13 @@
 <script setup>
 import {ref} from 'vue'
 import {useUserStore} from '@/stores/user.js'
+import {useCartStore} from '@/stores/cart.js'
 import {useRouter} from 'vue-router'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 
 const userStore = useUserStore()
+const cartStore = useCartStore()
 
 const userInfo = ref({
   account:'xiaotuxian001',
@@ -38,11 +40,17 @@ const doLogin = ()=>{
   formRef.value.validate(async (valid)=>{
     if(valid){
       userStore.getUserInfo({account,password})
+      
       ElMessage({type:'success',message: '登陆成功'})
       router.replace({path:'/'})
     }
-  })  
+  })
+  // setTimeout(() => {
+  //   cartStore.findNewCartList()
+  // }, 2000);
+  
 }
+
 </script>
 
 <template>

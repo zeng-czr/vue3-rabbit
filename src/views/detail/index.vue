@@ -45,9 +45,13 @@ const addCart = ()=>{
       attrsText:skuObj.specsText,
       selected:true
     })
+    ElMessage({
+      type:'success',
+      message:'添加成功'
+    })
   }else(
     ElMessage({
-      tyep:'warning',
+      type:'warning',
       message:'请选择规格'
     })
   )
@@ -110,8 +114,8 @@ const addCart = ()=>{
               <p class="g-name"> {{goods.name}}</p>
               <p class="g-desc">{{ goods.desc }} </p>
               <p class="g-price">
-                <span>{{ goods.oldPrice }}</span>
-                <span> {{ goods.price }}</span>
+                <span>{{ goods.price }}</span>
+                <span> {{  goods.oldPrice}}</span>
               </p>
               <div class="g-service">
                 <dl>
