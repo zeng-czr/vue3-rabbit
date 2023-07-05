@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+
+import { useUserStore } from '@/stores/user.js'
+
 import Login from '@/views/login/index.vue'
 import Layout from '@/views/layout/index.vue'
 import Home from '@/views/home/index.vue'
@@ -83,5 +88,17 @@ const router = createRouter({
     }
   }
 })
-
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  const token = userStore.userInfo.token
+  if (!token && to.path === '/checkout') {
+    next('/login')
+    ElMessage({
+      type: 'warning',
+      message: '请先登录后下单'
+    })
+  } else {
+    next()
+  }
+})
 export default router

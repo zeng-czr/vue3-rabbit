@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import {getUserOrderApi} from '@/apis/member.js'
 // tab列表
 const tabTypes = [
@@ -11,6 +11,7 @@ const tabTypes = [
   { name: "complete", label: "已完成" },
   { name: "cancel", label: "已取消" }
 ]
+
 // 订单列表
 const orderList = ref([])
 const total = ref(0)//数据总条数
@@ -24,6 +25,7 @@ const params = ref({
 const getOrderList = async () => {
   const res = await getUserOrderApi(params.value)
   orderList.value = res.data.result.items
+  console.log(orderList.value)
   total.value = res.data.result.counts
   pageSize.value = res.data.result.pageSize
 }
@@ -39,6 +41,17 @@ const pageChange = (page) => {
   params.value.page = page
   getOrderList()
 }
+const showOrder = ref(false)
+const orderDetail = ref({})
+const status = ref({})
+const confirm = (order)=>{
+  showOrder.value = true
+  console.log("order")
+  orderDetail.value = order
+  console.log(orderDetail)
+  status.value = tabTypes.find((item,index)=>index===orderDetail.value.orderState)
+}
+
 </script>
 
 <template>
@@ -108,7 +121,7 @@ const pageChange = (page) => {
                 <el-button v-if="order.orderState === 3" type="primary" size="small">
                   确认收货
                 </el-button>
-                <p><a href="javascript:;">查看详情</a></p>
+                <p><a @click="confirm(order)">查看详情</a></p>
                 <p v-if="[2, 3, 4, 5].includes(order.orderState)">
                   <a href="javascript:;">再次购买</a>
                 </p>
@@ -128,7 +141,43 @@ const pageChange = (page) => {
 
     </el-tabs>
   </div>
-
+  <el-dialog v-model="showOrder" :show-close="true">
+    <template #header="">
+      <div class="my-header">
+        <h3>订单详情</h3>
+      </div>
+    </template>
+    <div class="orderInfo">
+      <div class="orderId">
+        <span><el-text tag="b">订单编号：</el-text><el-tag>{{ orderDetail.id }}</el-tag></span>
+        <span class="orderTime">订单创建时间：<el-text tag="b">Bold</el-text><el-tag>{{ orderDetail.createTime }}</el-tag></span>
+      </div>
+      <div class="orderItem">
+        <ul v-for="item in orderDetail.skus" :key="item.id">
+          <li>
+            <a>
+              <img class="orderImg" :src="item.image" alt=""/>
+            </a>
+            <div class="info">
+              <p>商品名称:<el-text tag="b">商品名称:</el-text>{{ item.name }}</p>
+              <p><el-text tag="b">商品规格:</el-text>{{ item.attrsText }}</p>
+              
+            </div>
+            <div><el-text tag="b">商品单价:</el-text><el-text class="mx-1" type="danger">{{ item.realPay}}</el-text></div>
+            <div>
+              <el-text tag="b">商品数量:</el-text>X{{ item.quantity }}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="orderDetail">
+        <span><el-text tag="b">订单状态:</el-text><el-tag class="ml-2" type="success">{{ status.label}}</el-tag></span>
+        <span><el-text tag="b">商品总数量:</el-text>{{ orderDetail.totalNum }}</span>
+        <span><el-text tag="b">商品总金额:</el-text>{{ orderDetail.totalMoney }}</span>
+        <span><el-text tag="b">付款金额:</el-text>{{ orderDetail.payMoney }}</span>
+      </div>
+    </div>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
@@ -289,6 +338,35 @@ const pageChange = (page) => {
         }
       }
     }
+  }
+}
+.orderInfo{
+  .orderId{
+    border-bottom: 2px solid 	#E6E6FA;
+    .orderTime{
+      margin-left: 30px;
+    }
+  }
+  .orderItem{
+    ul{
+      li{
+        display: flex;
+        align-items: center;
+        padding: 2px;
+        margin: 2px;
+        justify-content: space-between;
+        border-bottom: 2px solid 	#E6E6FA;
+        .orderImg{
+          width: 70px;
+          height: 70px;
+        }
+      }
+    }
+  }
+  .orderDetail{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
   }
 }
 </style>

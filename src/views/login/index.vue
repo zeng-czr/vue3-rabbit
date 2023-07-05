@@ -10,8 +10,8 @@ const userStore = useUserStore()
 const cartStore = useCartStore()
 
 const userInfo = ref({
-  account:'xiaotuxian001',
-  password:'123456',
+  account:'12056258282',
+  password:'hm#qd@23!',
   agree:false,
 })
 // 规则数据对象
