@@ -26,6 +26,7 @@ export const delCartApi = (ids) => {
     }
   })
 }
+
 export const mergeCartApi = (data) => {
   return instance({
     url: '/member/cart/merge',

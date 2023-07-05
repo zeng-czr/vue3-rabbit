@@ -21,3 +21,9 @@ export const createOrderApi = (data) => {
     data
   })
 }
+// 获取订单信息
+export const getOrderApi = (id) => {
+  return instance({
+    url: `/member/order/${id}`,
+  })
+}
